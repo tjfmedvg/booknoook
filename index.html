@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Review: This Story is a Lie</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa; /* Lighter, cleaner background */
+        }
+        .material-card {
+            background-color: white;
+            border-radius: 16px; /* More pronounced rounded corners */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05), 0 5px 15px rgba(0,0,0,0.08); /* Softer M3-style shadow */
+            transition: box-shadow 0.3s ease-in-out;
+        }
+        .material-card:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.07), 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .star-rating .material-icons-outlined {
+            font-size: 1.25rem; /* 20px */
+            color: #FFCA28; /* Material Design Yellow/Gold for stars */
+        }
+        .empty-star .material-icons-outlined {
+            color: #d1d5db; /* Gray for empty stars */
+        }
+
+        /* Google-inspired Blue - Primary Action */
+        .btn-primary {
+            background-color: #0B57D0; /* Google Blue */
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px; /* Pill-shaped, common in M3 */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        }
+        .btn-primary:hover {
+            background-color: #0A4CB7; /* Slightly darker blue */
+            box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        /* Secondary/Outlined Button Style */
+        .btn-secondary {
+            background-color: #e9f0fe; /* Light blue background */
+            color: #0B57D0; /* Google Blue text */
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 20px; /* Pill-shaped */
+            transition: background-color 0.3s ease, color 0.3s ease;
+            border: 1px solid #c6d9f9; /* Light blue border */
+            text-align: center;
+        }
+        .btn-secondary:hover {
+            background-color: #d2e3fc; /* Slightly darker light blue */
+        }
+
+        h1, h2, h3 {
+            font-weight: 700;
+            color: #1f2937; /* Darker text for headings */
+        }
+        h1 { font-size: 2.25rem; line-height: 2.5rem; margin-bottom: 0.75rem;} /* 36px */
+        h2 { font-size: 1.875rem; line-height: 2.25rem; margin-bottom: 0.5rem;} /* 30px */
+        h3 { font-size: 1.5rem; line-height: 2rem; margin-bottom: 0.5rem;} /* 24px */
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #e9e9e9;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #b0b0b0;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #909090;
+        }
+        .placeholder-image {
+            background-color: #eef0f2; /* Lighter placeholder bg */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6c757d;
+            font-size: 0.875rem;
+            border: 2px dashed #ced4da;
+        }
+        .prose { /* Basic prose styling for AI review */
+            color: #374151; /* Slightly lighter than headings */
+        }
+        .prose strong {
+            color: #111827;
+        }
+        .prose p {
+            margin-bottom: 1em;
+            line-height: 1.65;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="bg-slate-900 text-white p-4 shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <span class="material-icons-outlined text-3xl text-sky-400">auto_stories</span>
+                <h1 class="text-2xl font-bold text-white">BookNook</h1>
+            </div>
+            </div>
+    </header>
+
+    <div class="container mx-auto p-4 md:p-6 lg:p-8 mt-4">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
+
+            <div class="lg:col-span-1 space-y-6">
+                <div class="material-card p-6 text-center">
+                    <h2 class="text-xl font-semibold mb-4">Book Cover</h2>
+                    <div id="bookCoverPlaceholder" class="rounded-lg flex items-center justify-center">
+                        <img src="download (11).jpg">
+                    </div>
+                </div>
+
+                <div class="material-card p-6 text-center">
+                    <h2 class="text-xl font-semibold mb-4">Similar</h2>
+                    <div class="space-y-4">
+                        <div id="scene1Placeholder" class="w-full h-48 rounded-lg flex items-center justify-center">
+                            <img src="download (13).jpg" alt="Linked">
+                        </div>
+                        <div id="scene2Placeholder" class="w-full h-48 rounded-lg flex items-center justify-center">
+                            <img src="download (12).jpg" alt="Quarantine">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="material-card p-6 sticky top-24">
+                    <h3 class="text-lg font-semibold mb-1 text-gray-700">Get Your Copy</h3>
+                    <p class="text-3xl font-bold text-red-600 mb-3" id="bookPrice">$10.99</p>
+                    <p class="text-green-600 font-semibold mb-3">In Stock.</p>
+                    <p class="text-sm text-gray-600 mb-4">Ships from and sold by Amazon.com.</p>
+                    <a href="https://www.amazon.com/This-Story-Lie-Tom-Pollock/dp/1641290323/ref=tmm_pap_swatch_0" id="buyNowLink" class="block w-full btn-primary mb-3">Buy Now</a>
+                    <a href="https://catalog.wichitalibrary.org/Polaris/search/title.aspx?ctx=1.1033.0.0.6&pos=1&cn=838386" id="checkoutLink" class="block w-full btn-secondary">Check-Out Now</a>
+                </div>
+            </div>
+
+            <div class="lg:col-span-2 space-y-6">
+                <div class="material-card p-6">
+                    <h1 id="bookTitle" class="text-3xl md:text-4xl font-bold text-gray-800">This Story is a Lie</h1>
+                    <p class="text-lg text-gray-500 mb-2">by <span id="bookAuthor" class="font-semibold text-gray-700">Tom Pollock</span></p>
+                    <div class="flex items-center mb-4">
+                        <div id="overallStarRating" class="star-rating flex">
+                            </div>
+                        <span id="averageRatingText" class="ml-2 text-gray-600 text-sm"></span>
+                        <a href="#customerReviews" class="ml-2 text-sm text-blue-600 hover:text-blue-800 hover:underline">(<span id="totalReviewsCount">0</span> customer reviews)</a>
+                    </div>
+                    <div class="mt-4">
+                        <h3 class="text-xl font-semibold mb-2 text-gray-700">Quick Preview:</h3>
+                        <p id="bookPreviewSummary" class="text-gray-600 italic leading-relaxed">
+                            Peter Blankman
+                        </p>
+                    </div>
+                </div>
+
+                <div class="material-card p-6">
+                    <h2 class="text-2xl font-semibold mb-3">Editorial Review</h2>
+                    <div id="aiOverviewContent" class="prose max-w-none">
+                        <p>This is where your main review (the "AI Overview") will go. You can write an in-depth analysis of the book here, covering its themes, characters, plot, and your overall impressions. This section corresponds to the "Editorial Review" from your template.</p>
+                        <p><strong>Key Strengths:</strong> [e.g., Compelling characters, intricate plot, beautiful prose]</p>
+                        <p><strong>Potential Weaknesses:</strong> [e.g., Pacing issues in the middle, underdeveloped subplot]</p>
+                        <p><strong>Overall:</strong> [Your final verdict and recommendation level]</p>
+                    </div>
+                </div>
+
+                <div class="material-card p-6">
+                    <h2 class="text-2xl font-semibold mb-3">Summary</h2>
+                    <p id="bookCompleteSummary" class="text-gray-600 leading-relaxed">
+                        In <strong>This Story Is a Lie</strong>, Tom Pollock creates a gripping psychological thriller about 17-year-old math genius Peter Blankman, who's struggling with crippling anxiety. Everything gets out of control when his scientist mother is stabbed and his twin sister Bel disappears, bringing Peter into a conspiracy including secret experiments and some crazy family secrets. As a secret agency is pursuing him, and he doesn't know who to believe, Peter must use reason, memory, and perception to discover the truth. With good plotting and an unreliable narrator, the book distorts the smudges between reality and illusion in a story of identity, mental illness, and betrayal.
+                    </p>
+                </div>
+
+                <div class="material-card p-6">
+                    <h2 class="text-2xl font-semibold mb-4">Product Details</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 text-gray-600">
+                        <div><strong>Age Range:</strong> <span id="ageRange">14 - 17 years</span></div>
+                        <div><strong>Grade Level:</strong> <span id="gradeLevel">9 - 12</span></div>
+                        <div><strong>Pages:</strong> <span id="pageCount">336 pages</span></div>
+                        <div><strong>Publisher:</strong> <span id="publisher">Soho Teen</span></div>
+                        <div><strong>Publication Date:</strong> <span id="publicationDate">August 7, 2018</span></div>
+                        <div><strong>Language:</strong> <span id="language">English</span></div>
+                        <div><strong>ISBN-10:</strong> <span id="isbn10">1616959118</span></div>
+                        <div><strong>ISBN-13:</strong> <span id="isbn13">978-1616959111</span></div>
+                    </div>
+                </div>
+
+                <div class="material-card p-6">
+                    <h2 class="text-2xl font-semibold mb-4">Quote Me</h2>
+                    <div id="bookQuotes" class="space-y-4">
+                        <blockquote class="border-l-4 border-blue-500 pl-4 italic text-gray-600">
+                            <p>"Give in, it says. Run. Get it over with. If you don't, you'll only face the same choice in the next second and the next and the next after that. How many times do you think you can hold out?"</p>
+                            <footer class="text-sm mt-1 text-gray-500">- Peter Blankman</footer>
+                        </blockquote>
+                        <blockquote class="border-l-4 border-blue-500 pl-4 italic text-gray-600">
+                            <p>"Your sister's crazy. What if she doesn't ned reasons? You already asked her why once, remember? She said your mum made her mad. What if thats all there is to it? after all ... nothing 'turned her' on her first victim."</p>
+                            <footer class="text-sm mt-1 text-gray-500">- Ingrid</footer>
+                        </blockquote>
+                        <blockquote class="border-l-4 border-blue-500 pl-4 italic text-gray-600">
+                            <p>"THIS STATEMENT IS A LIE ... THIS STATEMENT IS UNPROVABLE"</p>
+                            <footer class="text-sm mt-1 text-gray-500">- Peter Blankman</footer>
+                        </blockquote>
+                    </div>
+                </div>
+
+                <div class="material-card p-6">
+                    <h2 class="text-2xl font-semibold mb-4">Recommend</h2>
+                    <div id="rankOrRecommendContent" class="text-gray-600">
+                        <ul class="list-disc list-inside ml-4 space-y-1">
+                            <li>Linked by Gordon Korman - Both books are mystery-esc with a teenage male protagonist. Both books start with a shocking event that premise the hole story. In <strong>Linked</strong> someone draws a swastika on the ceiling of a school hallway. Over time more start appearing and someone must find out who caused this.</li>
+                            <li>Quarantine: The Loners by Lex Thomas - Both books have a higher power controlling the settup. In <strong>Quarantine</strong> a virus that kills all who aren't 14-18 spreads between a highschool. The government controls everything inside the highschool.</li>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div id="customerReviews" class="material-card p-6">
+                    <h2 class="text-2xl font-semibold mb-4">Customer Reviews</h2>
+                    <div class="mb-6 p-4 border border-gray-200 rounded-lg bg-slate-50">
+                        <h3 class="text-lg font-semibold mb-2 text-gray-700">Overall Rating:</h3>
+                        <div class="flex items-center">
+                            <div id="summaryStarRating" class="star-rating flex text-2xl">
+                                </div>
+                            <span id="summaryAverageRatingText" class="ml-3 text-xl font-bold text-gray-700"></span>
+                        </div>
+                        <p id="summaryTotalReviewsText" class="text-sm text-gray-500 mt-1"></p>
+                    </div>
+
+                    <div id="reviewsContainer" class="space-y-6 max-h-[600px] overflow-y-auto custom-scrollbar pr-2">
+                        <p class="text-gray-500 italic">No reviews yet. Be the first to review!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-slate-800 text-gray-400 text-center p-8 mt-12">
+        <p>&copy; <span id="currentYear"></span> Jeffrey Karl "Tre" Kitchen III</p>
+    </footer>
+
+    <script>
+        // --- DYNAMIC CONTENT & CONFIGURATION ---
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        document.getElementById('bookTitle').textContent = "This Story is a Lie";
+        document.getElementById('bookAuthor').textContent = "Tom Pollock";
+        document.getElementById('bookPreviewSummary').textContent = "At what should have been a celebratory awards ceremony for his mother, British teen math genius Peter Blankman is struck by a panic attack. In the crisis that follows, tragedy strikes: his mother is stabbed, and his twin sister is abducted.";
+        document.getElementById('bookPrice').textContent = "$10.99"; // Example price
+
+        // --- AI OVERVIEW / EDITORIAL REVIEW CONTENT ---
+        const aiOverview = `
+            <p>An intriguing story about a 17 year old boy named Peter. Peter is a math genius, but he also suffers with his mental health. One day his mother is stabbed and sister vanishes. Peter works with "57," a secret agency, to find his sister and help his mother survive. Truth and perception are question throughout the book through the unreliable narrator used. Peter's mental illness doesn't help with the unreliable part. Overall I rate this book a <strong>4.6 out of 5</strong>. There are better books out there but this one was amazing. I would recommend any reader to read <strong>Linked</strong> by Gordon Korman or the <strong>Quarantine</strong> Series by Lex Thomas. Both have aspects of mystery, a teen protagonist and political struggle.</p>
+        `;
+        document.getElementById('aiOverviewContent').innerHTML = aiOverview;
+
+        // --- CUSTOMER REVIEWS DATA & LOGIC ---
+        const reviews = [
+            // 5-star reviews (25)
+            { name: "ThrillerFanatic", rating: 5, date: "May 10, 2025", title: "Absolutely Gripping!", text: "Couldn't put this down! The twists were incredible. A must-read.", verifiedPurchase: true },
+            { name: "MysteryMaven", rating: 5, date: "May 09, 2025", title: "Masterpiece of Suspense", text: "Tom Pollock is a genius. This book kept me guessing until the very end.", verifiedPurchase: true },
+            { name: "BookLover_88", rating: 5, date: "May 08, 2025", title: "Unforgettable Read", text: "One of the best thrillers I've read in years. The unreliable narrator was handled perfectly.", verifiedPurchase: false },
+            { name: "PageTurnerPro", rating: 5, date: "May 07, 2025", title: "Mind-Bendingly Good!", text: "Wow! Just wow. This story will stay with me for a long time. Highly recommend.", verifiedPurchase: true },
+            { name: "SuspenseSeeker", rating: 5, date: "May 06, 2025", title: "Kept Me on Edge!", text: "The atmosphere was so tense, I felt like I was in the story. Brilliant writing.", verifiedPurchase: true },
+            { name: "ReaderReviewer", rating: 5, date: "May 05, 2025", title: "A Psychological Gem", text: "Pollock explores mental health with such depth and sensitivity within a thrilling plot.", verifiedPurchase: false },
+            { name: "PlotTwistAddict", rating: 5, date: "May 04, 2025", title: "So Many Twists!", text: "Just when I thought I had it figured out, another twist! Loved every second.", verifiedPurchase: true },
+            { name: "FictionFiend", rating: 5, date: "May 03, 2025", title: "Exceptional Storytelling", text: "The narrative structure is incredible. This is how you write a psychological thriller.", verifiedPurchase: true },
+            { name: "Bibliophile_Chris", rating: 5, date: "May 02, 2025", title: "Loved it!", text: "Complex, dark, and utterly compelling. A fantastic read.", verifiedPurchase: true },
+            { name: "LateNightReader", rating: 5, date: "May 01, 2025", title: "Couldn't Sleep!", text: "Stayed up all night to finish this. So worth it!", verifiedPurchase: false },
+            { name: "BookwormJane", rating: 5, date: "Apr 30, 2025", title: "Five Stars!", text: "An intelligent and thought-provoking thriller. Highly recommended.", verifiedPurchase: true },
+            { name: "StoryHunter", rating: 5, date: "Apr 29, 2025", title: "Incredible Journey", text: "This book takes you on a wild ride. Prepare to be amazed.", verifiedPurchase: true },
+            { name: "EnigmaticReader", rating: 5, date: "Apr 28, 2025", title: "Deeply Affecting", text: "More than just a thriller, it's a profound look at memory and trauma.", verifiedPurchase: false },
+            { name: "AlexReads", rating: 5, date: "Apr 27, 2025", title: "Stunningly Crafted", text: "The writing is superb, and the plot is intricate. A must-read.", verifiedPurchase: true },
+            { name: "TheReviewingReader", rating: 5, date: "Apr 26, 2025", title: "Top Tier Thriller", text: "This sets a new bar for psychological thrillers. Absolutely brilliant.", verifiedPurchase: true },
+            { name: "ConstantReader", rating: 5, date: "Apr 25, 2025", title: "Loved the Complexity", text: "If you like books that make you think, this is for you. Excellent.", verifiedPurchase: false },
+            { name: "BookishBeth", rating: 5, date: "Apr 24, 2025", title: "A Favorite of the Year!", text: "Definitely one of my top reads this year. So clever.", verifiedPurchase: true },
+            { name: "LiteraryExplorer", rating: 5, date: "Apr 23, 2025", title: "Mind. Blown.", text: "This book completely blew my mind. In the best way possible.", verifiedPurchase: true },
+            { name: "CoverToCover", rating: 5, date: "Apr 22, 2025", title: "Unputdownable!", text: "From the first page to the last, I was hooked. Fantastic.", verifiedPurchase: true },
+            { name: "Reader_X", rating: 5, date: "Apr 21, 2025", title: "Brilliant and Haunting", text: "A story that will haunt you long after you finish it. Superb.", verifiedPurchase: false },
+            { name: "SamTheReader", rating: 5, date: "Apr 20, 2025", title: "Perfection!", text: "This is psychological thriller perfection. Read it now!", verifiedPurchase: true },
+            { name: "JustAnotherReader", rating: 5, date: "Apr 19, 2025", title: "Incredible!", text: "What a ride! The ending was shocking. Loved it.", verifiedPurchase: true },
+            { name: "TheBookishType", rating: 5, date: "Apr 18, 2025", title: "So Clever!", text: "The way this story unfolds is just so clever. Highly recommend.", verifiedPurchase: false },
+            { name: "MysteryUnraveler", rating: 5, date: "Apr 17, 2025", title: "A True Gem", text: "This book is a true gem in the thriller genre. Don't miss it.", verifiedPurchase: true },
+            { name: "FinalChapterFan", rating: 5, date: "Apr 16, 2025", title: "Amazing Read!", text: "Loved the characters, the plot, everything! An amazing read.", verifiedPurchase: true },
+
+            // 4-star reviews (8)
+            { name: "ThoughtfulReader", rating: 4, date: "Apr 15, 2025", title: "Very Good, Very Complex", text: "A really well-written and complex story. It took some effort to follow, but it was worth it.", verifiedPurchase: true },
+            { name: "AlmostPerfect", rating: 4, date: "Apr 14, 2025", title: "Great, but a bit dense", text: "Loved the concept and the main character. Some parts were a little too convoluted for my taste, but still a great read.", verifiedPurchase: false },
+            { name: "SolidStorySeeker", rating: 4, date: "Apr 13, 2025", title: "Enjoyable Thriller", text: "A solid thriller with some great twists. The ending was satisfying.", verifiedPurchase: true },
+            { name: "CriticalReader", rating: 4, date: "Apr 12, 2025", title: "Well Crafted", text: "The author clearly put a lot of thought into this. It's well crafted, though occasionally confusing.", verifiedPurchase: true },
+            { name: "Reader_Kate", rating: 4, date: "Apr 11, 2025", title: "Good, but demanding", text: "This book demands your full attention, but it's rewarding. A good, challenging read.", verifiedPurchase: false },
+            { name: "PuzzledReader", rating: 4, date: "Apr 10, 2025", title: "Kept me thinking", text: "Definitely a book that makes you think. I enjoyed trying to piece it all together.", verifiedPurchase: true },
+            { name: "EngagedReader", rating: 4, date: "Apr 09, 2025", title: "Very engaging", text: "A very engaging story, though I had to re-read a few sections to keep up. Worth it.", verifiedPurchase: true },
+            { name: "BookwormBen", rating: 4, date: "Apr 08, 2025", title: "Strong Contender", text: "A strong contender for one of the best thrillers I've read. Just a tad confusing at times.", verifiedPurchase: false },
+
+            // 2-star reviews (2 to bring average to 4.6)
+            { name: "ConfusedReader", rating: 2, date: "Apr 07, 2025", title: "Too Complicated for Me", text: "I appreciate what the author was trying to do, but it was just too complicated and confusing for me to fully enjoy.", verifiedPurchase: true },
+            { name: "LostInThePlot", rating: 2, date: "Apr 06, 2025", title: "Not My Cup of Tea", text: "The unreliable narrator concept was interesting, but I found the plot hard to follow and ultimately unsatisfying.", verifiedPurchase: false },
+
+    // 5-star reviews (20)
+    { name: "ThrillerBuff89", rating: 5, date: "May 11, 2025", title: "Gripping and Intense", text: "The pacing is relentless and the twists never stop. A masterpiece.", verifiedPurchase: true },
+    { name: "PageTwister", rating: 5, date: "May 10, 2025", title: "Brilliant Work!", text: "Every chapter had me more hooked than the last. A stellar thriller.", verifiedPurchase: true },
+    { name: "NoSleepNina", rating: 5, date: "May 09, 2025", title: "Insomnia Worthy", text: "This book kept me up all night. Literally unputdownable.", verifiedPurchase: false },
+    { name: "DarkPlotDevotee", rating: 5, date: "May 08, 2025", title: "So Smart, So Dark", text: "The plot was intelligent and chilling. I couldn’t get enough.", verifiedPurchase: true },
+    { name: "TwistAndShout", rating: 5, date: "May 07, 2025", title: "Jaw-Dropping Twists!", text: "Just when I thought I had it figured out, BAM! Another shock.", verifiedPurchase: true },
+    { name: "NarrativeNerd", rating: 5, date: "May 06, 2025", title: "Masterclass in Storytelling", text: "This author knows how to manipulate suspense. Incredible work.", verifiedPurchase: true },
+    { name: "PsychoThrillFan", rating: 5, date: "May 05, 2025", title: "Mind Games Galore", text: "So many layers. I need to re-read just to catch all the nuances.", verifiedPurchase: false },
+    { name: "FictionFiend99", rating: 5, date: "May 04, 2025", title: "Couldn't Stop Reading", text: "One of those books where the world fades away as you read.", verifiedPurchase: true },
+    { name: "ObsessedWithThrills", rating: 5, date: "May 03, 2025", title: "Perfection!", text: "This is how thrillers should be written. Pure perfection.", verifiedPurchase: true },
+    { name: "ReadOrDie", rating: 5, date: "May 02, 2025", title: "Wild Ride!", text: "A wild, wild ride from start to finish. Five stars!", verifiedPurchase: true },
+    { name: "ShockedReader", rating: 5, date: "May 01, 2025", title: "Did Not See It Coming", text: "The ending punched me in the gut. Loved every second.", verifiedPurchase: false },
+    { name: "MentalMazeLover", rating: 5, date: "Apr 30, 2025", title: "Mental Gymnastics", text: "Exactly the kind of psychological tension I crave. Fantastic.", verifiedPurchase: true },
+    { name: "PlotJunkie92", rating: 5, date: "Apr 29, 2025", title: "Twisty Brilliance", text: "Just... wow. This is easily a top-5 thriller for me.", verifiedPurchase: true },
+    { name: "StorySnatcher", rating: 5, date: "Apr 28, 2025", title: "Hauntingly Good", text: "Still thinking about this one days later. A haunting journey.", verifiedPurchase: false },
+    { name: "EdgeOfMySeat", rating: 5, date: "Apr 27, 2025", title: "Couldn’t Look Away", text: "Everything about this was magnetic. Stunning writing.", verifiedPurchase: true },
+    { name: "ReadInOneGo", rating: 5, date: "Apr 26, 2025", title: "Finished in One Sitting", text: "Taut, smart, and absolutely addictive. Couldn’t stop.", verifiedPurchase: true },
+    { name: "NarrativeNinja", rating: 5, date: "Apr 25, 2025", title: "Cinematic and Clever", text: "Felt like watching a high-end thriller. Beautifully written.", verifiedPurchase: true },
+    { name: "GrittyReader", rating: 5, date: "Apr 24, 2025", title: "Dark and Brilliant", text: "A brutal and brilliant tale. You won't forget it soon.", verifiedPurchase: true },
+    { name: "TensionMaster", rating: 5, date: "Apr 23, 2025", title: "Built Like a Puzzle", text: "Watching it all come together was so satisfying.", verifiedPurchase: true },
+    { name: "RivetedRita", rating: 5, date: "Apr 22, 2025", title: "Unforgettable Characters", text: "The characters were so real, I felt like I knew them.", verifiedPurchase: true },
+
+    // 4-star reviews (3)
+    { name: "DeepDiveReader", rating: 4, date: "Apr 21, 2025", title: "Dense but Rewarding", text: "It’s heavy, but if you stick with it, the payoff is worth it.", verifiedPurchase: true },
+    { name: "TwistyButTough", rating: 4, date: "Apr 20, 2025", title: "Almost Perfect", text: "A few plot jumps were hard to follow, but still fantastic.", verifiedPurchase: false },
+    { name: "SmartPlotter", rating: 4, date: "Apr 19, 2025", title: "Clever and Rich", text: "Loved the intellect behind this. Just slightly overstuffed.", verifiedPurchase: true },
+
+    // 3-star review (1)
+    { name: "MidlineMark", rating: 3, date: "Apr 18, 2025", title: "Mixed Feelings", text: "Started strong but lost me toward the end. A decent read.", verifiedPurchase: true },
+
+    // 2-star review (1)
+    { name: "PlotTangled", rating: 2, date: "Apr 17, 2025", title: "Too Complicated", text: "I respect the effort, but the layers just made it hard to enjoy.", verifiedPurchase: false }
+        ];
+
+        const reviewsContainer = document.getElementById('reviewsContainer');
+        const overallStarRatingContainer = document.getElementById('overallStarRating');
+        const averageRatingText = document.getElementById('averageRatingText');
+        const totalReviewsCount = document.getElementById('totalReviewsCount');
+
+        const summaryStarRatingContainer = document.getElementById('summaryStarRating');
+        const summaryAverageRatingText = document.getElementById('summaryAverageRatingText');
+        const summaryTotalReviewsText = document.getElementById('summaryTotalReviewsText');
+
+        function generateStars(rating, size = '1.25rem') {
+            let starsHTML = '';
+            const fullStars = Math.floor(rating);
+            const halfStar = rating % 1 >= 0.5;
+            const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+            for (let i = 0; i < fullStars; i++) {
+                starsHTML += `<span class="material-icons-outlined" style="font-size: ${size};">star</span>`;
+            }
+            if (halfStar) {
+                starsHTML += `<span class="material-icons-outlined" style="font-size: ${size};">star_half</span>`;
+            }
+            for (let i = 0; i < emptyStars; i++) {
+                starsHTML += `<span class="material-icons-outlined empty-star" style="font-size: ${size};">star_outline</span>`;
+            }
+            return starsHTML;
+        }
+
+        function displayReviews() {
+            if (reviews.length === 0) {
+                reviewsContainer.innerHTML = '<p class="text-gray-500 italic">No reviews yet. Be the first to review!</p>';
+                overallStarRatingContainer.innerHTML = generateStars(0);
+                averageRatingText.textContent = 'No ratings yet';
+                totalReviewsCount.textContent = '0';
+
+                summaryStarRatingContainer.innerHTML = generateStars(0, '1.75rem');
+                summaryAverageRatingText.textContent = 'N/A';
+                summaryTotalReviewsText.textContent = 'Based on 0 reviews.';
+                return;
+            }
+
+            reviewsContainer.innerHTML = ''; // Clear existing reviews
+            let totalRating = 0;
+
+            reviews.forEach(review => {
+                totalRating += review.rating;
+                const reviewElement = document.createElement('div');
+                reviewElement.className = 'p-4 border-b border-gray-200 last:border-b-0';
+                // Using first letter of name for placeholder avatar
+                const avatarLetter = review.name.charAt(0).toUpperCase();
+                reviewElement.innerHTML = `
+                    <div class="flex items-center mb-2">
+                        <div class="w-10 h-10 rounded-full bg-sky-100 text-sky-600 flex items-center justify-center font-semibold mr-3 text-lg">
+                           ${avatarLetter}
+                        </div>
+                        <div>
+                            <span class="font-semibold text-gray-800">${review.name}</span>
+                            <p class="text-xs text-gray-500">Reviewed on ${review.date}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center mb-2">
+                        <div class="star-rating flex">${generateStars(review.rating)}</div>
+                        <h4 class="ml-3 font-semibold text-gray-700">${review.title}</h4>
+                    </div>
+                    ${review.verifiedPurchase ? '<p class="text-xs text-teal-600 font-semibold mb-2 flex items-center"><span class="material-icons-outlined text-sm mr-1">verified</span>Verified Purchase</p>' : ''}
+                    <p class="text-gray-600 leading-relaxed text-sm">${review.text}</p>
+                `;
+                reviewsContainer.appendChild(reviewElement);
+            });
+
+            const averageRating = totalRating / reviews.length;
+            // Round to nearest 0.5 for star display, but show precise average in text
+            const averageRatingForStars = Math.round(averageRating * 2) / 2;
+
+            overallStarRatingContainer.innerHTML = generateStars(averageRatingForStars);
+            averageRatingText.textContent = `${averageRating.toFixed(1)} out of 5 stars`;
+            totalReviewsCount.textContent = reviews.length;
+
+            summaryStarRatingContainer.innerHTML = generateStars(averageRatingForStars, '1.75rem');
+            summaryAverageRatingText.textContent = `${averageRating.toFixed(1)} out of 5`;
+            summaryTotalReviewsText.textContent = `Based on ${reviews.length} customer reviews.`;
+        }
+
+        document.getElementById('bookCoverPlaceholder').addEventListener('click', () => {
+            console.log("Book cover placeholder clicked. Implement image upload if needed.");
+        });
+
+        const buyNowButton = document.getElementById('buyNowLink');
+        const checkoutButton = document.getElementById('checkoutLink');
+        buyNowButton.href = "https://www.amazon.com/This-Story-Lie-Tom-Pollock/dp/1641290323/ref=tmm_pap_swatch_0"; // Example Play Store link
+        checkoutButton.href = "https://catalog.wichitalibrary.org/Polaris/search/title.aspx?ctx=1.1033.0.0.6&pos=1&cn=838386"; // Example cart link
+
+        displayReviews();
+    </script>
+</body>
+</html>
